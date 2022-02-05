@@ -14,96 +14,93 @@ function computerPlay()
     }
 }
 
-function playerPlay()
-{
-    let str1;
-    for( ; ; ){
-        str1=prompt("Enter rock, paper or scissors:");
-        str1=str1.toLowerCase();
-        if(str1=="rock"||str1=="paper"||str1=="scissors"){
-        break;
-        }
-        else{
-            alert("Incorrect input! Enter rock, paper or scissors");
-        }
-    }
-    return str1;
-}
-
 function gamePlay(a,b)
 {
     if(a==b)
     {
-        playerScore++; 
-        computerScore++;
-        alert("it's a tie both choose "+playerSelection);
+        //playerScore++; 
+        //computerScore++;
+        document.getElementById('play').innerText="it's a tie both choose "+playerSelection;
     }
     else if(a=="rock"&&b=="paper")
     {
         computerScore++;
-        alert("You lose, paper crushes rock");
+        document.getElementById('play').innerText="You lose, paper crushes rock";
     }
     else if(a=="rock"&&b=="scissors"){
         playerScore++;
-        alert("You win! rock destroys scissors");
+        document.getElementById('play').innerText="You win! rock destroys scissors";
     }
     else if(a=="paper"&&b=="rock"){
         playerScore++;
-        alert("You win! paper crushes rock");
+        document.getElementById('play').innerText="You win! paper crushes rock";
     }
     else if(a=="paper"&&b=="scissors"){
         computerScore++;
-        alert("You lose, scissors cut paper");
+        document.getElementById('play').innerText="You lose, scissors cut paper";
     }
     else if(a=="scissors"&&b=="rock"){
         computerScore++;
-        alert("You lose, rock destroys scissors");
+        document.getElementById('play').innerText="You lose, rock destroys scissors";
     }
     else if(a=="scissors"&&b=="paper"){
         playerScore++;
-        alert("You win! scissors cut paper");
+        document.getElementById('play').innerText="You win! scissors cut paper";
     }
     return playerScore,computerScore;
 }
 
 let playerSelection, computerSelection;
 let playerScore=0, computerScore=0;
-let j;
-for( ; ; ){
-    j=prompt("enter number of rounds to play: Max 10 rounds");
-    if(j<=10&&j>=1){
-        break;
-    }
-    else if(j>10){
-        alert("Max 10 rounds!!");
-    }
-    else if(j==0){
-        alert("invalid input");
-    }
-    else{
-        alert("invalid input");
-    }
-}
-for(i=0;i<j;i++)
-{
-    playerSelection = playerPlay();
+
+    // get all buttons
+const buttons = document.querySelectorAll('button');
+
+// add click event listener to each button
+let str1;
+buttons.forEach(button => {
+    button.addEventListener('click', e => {
+        str1=`${e.target.id}`;
+
+    playerSelection=str1;
     console.log(playerSelection);
     computerSelection = computerPlay();
     console.log(computerSelection);
     gamePlay(playerSelection, computerSelection);
     console.log(playerScore,computerScore);
-}
-if(playerScore==computerScore)
+    document.getElementById('score').innerText = "Player Score: " + playerScore+" Computer Score: "+
+    computerScore;
+
+if(playerScore>4)
 {
-    alert("FINAL: DRAW");
-    console.log("draw");
-}
-else if(playerScore>computerScore)
-{
-    alert("FINAL: YOU WIN!");
+    
+    document.getElementById("rock").disabled = true;
+    document.getElementById("paper").disabled = true;
+    document.getElementById("scissors").disabled = true;
+
+    document.getElementById('result').innerText="YOU WIN!";
     console.log("win");
+    const restart= document.createElement('button');
+    restart.innerHTML="RESTART";
+    document.getElementById('rest').appendChild(restart);
+    restart.addEventListener('click', e => {
+        location.reload();
+    })
 }
-else{
-    alert("FINAL: YOU LOSE :(");
+else if(computerScore>4)
+{
+    document.getElementById("rock").disabled = true;
+    document.getElementById("paper").disabled = true;
+    document.getElementById("scissors").disabled = true;
+
+    document.getElementById('result').innerText="YOU LOSE";
     console.log("lose");
+    const restart= document.createElement('button');
+    restart.innerHTML="RESTART";
+    document.getElementById('rest').appendChild(restart);
+    restart.addEventListener('click', e => {
+        location.reload();
+    })
 }
+});
+});
